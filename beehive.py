@@ -109,17 +109,6 @@ def lorem_user(rng: random.Random) -> str:
     return rng.choice([f"{a}-{b}", f"{a}{b}", f"{a}{rng.randint(1, 99)}", a + "s"])
 
 
-def fake_notes(rng: random.Random, n: int, op: str) -> list[dict]:
-    notes = []
-    for _ in range(min(n, 30)):
-        if rng.random() < 0.55:
-            notes.append({"user": lorem_user(rng), "action": "liked"})
-        else:
-            notes.append({"user": lorem_user(rng), "action": "reblogged", "from": rng.choice([op, lorem_user(rng)])})
-    notes.append({"user": op, "action": "posted"})
-    return notes
-
-
 def seed_posts(count: int, seed: int) -> list[dict]:
     rng = random.Random(seed)
     now = int(time.time())
@@ -145,7 +134,6 @@ def seed_posts(count: int, seed: int) -> list[dict]:
         else:
             post["text"] = lorem_sentence(rng, 6, 12)
             post["attribution"] = lorem_words(rng, 2).title()
-        post["note_list"] = fake_notes(rng, post["notes"], op)
         posts.append(post)
     return posts
 
@@ -197,20 +185,6 @@ def hex_tile(post: dict, root: str) -> str:
     )
 
 
-def note_line(note: dict) -> str:
-    who = f'<a href="#">{esc(note["user"])}</a>'
-    action = note.get("action", "liked")
-    if action == "reblogged":
-        frm = note.get("from")
-        tail = f' from <a href="#">{esc(frm)}</a>' if frm else ""
-        return f"<li>{who} reblogged this{tail}</li>"
-    if action == "posted":
-        return f"<li>{who} posted this</li>"
-    if action == "replied":
-        return f'<li>{who} said: {esc(note.get("text", ""))}</li>'
-    return f"<li>{who} {esc(action)} this</li>"
-
-
 def permalink_body(post: dict, prev_post: dict | None, next_post: dict | None, root: str) -> str:
     kind = post["type"]
     raw = post.get("html", False)
@@ -235,15 +209,6 @@ def permalink_body(post: dict, prev_post: dict | None, next_post: dict | None, r
     prev_link = f'<a href="{root}post/{prev_post["id"]}/">Previous Post</a>' if prev_post else "<span>Previous Post</span>"
     next_link = f'<a href="{root}post/{next_post["id"]}/">Next Post</a>' if next_post else "<span>Next Post</span>"
 
-    notes = ""
-    note_list = post.get("note_list") or []
-    if note_list:
-        items = "".join(note_line(x) for x in note_list)
-        quote = ""
-        if kind == "photo" and post.get("caption"):
-            quote = f'<div class="note-quote">{esc(post["caption"])}</div>'
-        notes = f'<section class="notes"><ol>{items}</ol>{quote}<div class="count">{n} notes</div></section>'
-
     return f"""
 <div class="perma">
   <div class="perma-box"{box_pad}>{src_tag}
@@ -251,10 +216,8 @@ def permalink_body(post: dict, prev_post: dict | None, next_post: dict | None, r
   </div>
   <div class="perma-meta">
     <span class="posted">Posted on {fmt_date(post["date"])} with {n} notes</span>
-    <span class="actions"><i class="fas fa-sync-alt"></i><i class="fas fa-heart"></i></span>
   </div>
   <nav class="perma-nav">{prev_link}{next_link}</nav>
-  {notes}
 </div>"""
 
 

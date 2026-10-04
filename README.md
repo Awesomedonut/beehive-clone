@@ -23,8 +23,7 @@ Import format (array or single object):
 
 ```json
 [{"type": "photo", "images": ["https://..."], "caption": "", "date": "2024-05-01T12:00:00",
-  "tags": ["x"], "notes": 40, "source": "someblog",
-  "note_list": [{"user": "a", "action": "liked"}, {"user": "b", "action": "reblogged", "from": "c"}]}]
+  "tags": ["x"], "notes": 40, "source": "someblog"}]
 ```
 
 Text and captions are escaped plain text (blank lines make paragraphs); set `"html": true` or pass `--html` for raw HTML.

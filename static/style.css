@@ -253,12 +253,11 @@ img { display: block; max-width: 100%; }
 .perma-frame blockquote { margin: 0; font-size: 22px; line-height: 34px; }
 .perma-frame .quote-src { margin-top: 12px; color: var(--accent); }
 .perma-frame .photo-caption { margin-top: 16px; }
-.perma-frame a, .notes a { color: var(--accent); }
+.perma-frame a { color: var(--accent); }
 .tags { margin-top: 14px; font-size: 13px; color: var(--accent); }
 .tags a { margin-right: 8px; text-decoration: none; }
 .perma-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 15px; }
 .posted { padding: 0 10px; background: var(--accent); color: #fff; font-size: 14px; line-height: 33px; }
-.perma-meta .actions { display: flex; gap: 22px; padding-right: 6px; font-size: 16px; }
 .perma-nav { display: flex; justify-content: space-around; margin: 30px 0; }
 .perma-nav a, .perma-nav span {
   padding: 8px 10px;
@@ -268,11 +267,6 @@ img { display: block; max-width: 100%; }
   text-decoration: none;
 }
 .perma-nav span { visibility: hidden; }
-.notes { padding: 40px 70px; border: 1px solid var(--line); font-size: 14px; }
-.notes ol { list-style: none; margin: 0; padding: 0; }
-.notes li { margin: 0 0 20px; }
-.notes .note-quote { margin: 0 0 20px; padding: 14px 20px; background: #fafafa; }
-.notes .count { text-align: center; color: var(--accent); }
 .perma ~ .credit { margin-top: 90px; }
 .perma ~ .credit a { border: 2px solid var(--frame); box-shadow: none; color: var(--accent); border-radius: 0; }
 
@@ -290,8 +284,7 @@ img { display: block; max-width: 100%; }
   .hive { grid-template-columns: var(--hex-w); width: var(--hex-w); margin-top: 40px; transform: none; padding-bottom: 20px; }
   .entry:nth-child(n) { transform: none; }
   .perma { width: auto; margin: 40px 16px 0; transform: none; }
-  .notes { padding: 24px; }
-}
+  }
 @media (max-width: 360px) {
   :root { --hex-w: 288px; --hex-h: 250px; }
 }
